@@ -1,0 +1,18 @@
+[
+  {
+    "output_file": "about.html",
+    "replace": 
+      {
+         "title": "My Site - About" ,
+         "content": "This is some information about my site" 
+      }
+  },
+  {
+    "output_file": "home.html",
+    "replace": 
+      {
+        "title": { "type": "string", "string": "My Site"  },
+        "content": { "type": "file", "file": "home_content.html" }
+      }
+  }
+]

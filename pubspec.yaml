@@ -1,0 +1,4 @@
+name: token_replace
+description: A sample command-line application
+#dependencies:
+#  unittest: any
