@@ -1,4 +1,4 @@
 name: token_replace
-description: A sample command-line application
+description: A command-line application and library for performing token replacement
 #dependencies:
 #  unittest: any
