@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:token_replace/token_replace.dart';
 
@@ -10,6 +11,9 @@ const String OUTPUT_FILE = 'output_file';
 const String TYPE = 'type';
 const String STRING = 'string';
 const String FILE = 'file';
+const String RANDOM = 'random';
+const String MAX = 'max';
+const String MIN = 'min';
 
 void main(List<String> args) {
   
@@ -38,8 +42,17 @@ void main(List<String> args) {
         exit(1);
       }
       if( replace[token] is Map ) {
-        if( replace[token][TYPE] == STRING ) return replace[token][STRING];
-        if( replace[token][TYPE] == FILE ) return new File(replace[token][FILE]).readAsStringSync();
+        switch( replace[token][TYPE] ) {
+          case STRING: return replace[token][STRING];
+          case FILE: return new File(replace[token][FILE]).readAsStringSync();
+          case RANDOM: 
+            int max = replace[token][MAX];
+            int min = replace[token][MIN];
+            return new Random().nextInt(max-min) + min;
+          default: 
+            print('$jsonFile: Unsupported replace type: ${replace[token][TYPE]}');
+            exit(1);
+        }
       }
       return replace[token];
     });

@@ -4,7 +4,8 @@
     "replace": 
       {
          "title": "My Site - About" ,
-         "content": "This is some information about my site" 
+         "content": "This is some information about my site" ,
+         "img_num": { "type": "random", "min": 1, "max": 50 }
       }
   },
   {
@@ -12,7 +13,8 @@
     "replace": 
       {
         "title": { "type": "string", "string": "My Site"  },
-        "content": { "type": "file", "file": "home_content.html" }
+        "content": { "type": "file", "file": "home_content.html" },
+        "img_num": { "type": "random", "min": 50, "max": 100 }
       }
   }
 ]
