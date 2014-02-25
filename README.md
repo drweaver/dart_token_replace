@@ -63,3 +63,6 @@ dependencies:
  - set different patterns
  - unit tests
  - Check string or file key is defined and error gracefully
+ - Sync method in lib - is there any need for async method?
+ - Work with streams instead of files?
+ - onDone callback
