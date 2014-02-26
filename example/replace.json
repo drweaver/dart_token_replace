@@ -21,6 +21,9 @@
           {
             "content": { "type": "file", "file": "home_content.html" }
           }
+      },
+      {
+        "output_file": "contact.html"
       }
     ]
 }

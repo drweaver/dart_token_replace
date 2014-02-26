@@ -21,26 +21,38 @@ Tokens are defined as ```@@token_name@@``` syntax:
 Replacements are defined in replace.json file:
 
 ```json
-[
-  {
-    "output_file": "about.html",
-    "replace": 
+{
+  "replace":
+    {
+      "title": "My Site",
+      "content": "Page under construction",
+      "img_num": { "type": "random", "min": 1, "max": 50 }
+    },
+  "output":
+    [
       {
-         "title": "My Site - About" ,
-         "content": "This is some information about my site" 
-      }
-  },
-  {
-    "output_file": "home.html",
-    "replace": 
+        "output_file": "about.html",
+        "replace": 
+          {
+             "title": { "type": "string", "string": "My Site - About" },
+             "content": "This is some information about my site"
+          }
+      },
       {
-        "title": { "type": "string", "string": "My Site"  },
-        "content": { "type": "file", "file": "home_content.html" }
+        "output_file": "home.html",
+        "replace": 
+          {
+            "content": { "type": "file", "file": "home_content.html" }
+          }
+      },
+      {
+        "output_file": "contact.html"
       }
-  }
-]
+    ]
+}
 ```
-
+The top ```replace``` section contains default replacements for each ```output```.  
+These can be overwridden in the ```output``` section if required. 
 
 ```bash
 dart /path/to/apply_token_replace.dart template_file replace.json

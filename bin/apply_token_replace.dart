@@ -45,9 +45,10 @@ void main(List<String> args) {
     print('Running replacement for ${o[OUTPUT_FILE]} using template $inputFile');
     final Map replace = o[REPLACE];
     String outputFile = o[OUTPUT_FILE];
+    if( outputFile == null ) error('$jsonFile: No $OUTPUT_FILE defined');
     new TokenReplace(new File(inputFile), new File(outputFile)).replaceAll((token) {
       var replacement;
-      if( !replace.containsKey(token) ) {
+      if( replace == null || !replace.containsKey(token) ) {
         if( !defaultReplace.containsKey(token)) error('$outputFile: No replacement defined for "$token"');
         replacement = defaultReplace[token];
       } else {
