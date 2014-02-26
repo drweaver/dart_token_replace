@@ -1,20 +1,26 @@
-[
-  {
-    "output_file": "about.html",
-    "replace": 
+{
+  "replace":
+    {
+      "title": "My Site",
+      "content": "Page under construction",
+      "img_num": { "type": "random", "min": 1, "max": 50 }
+    },
+  "output":
+    [
       {
-         "title": "My Site - About" ,
-         "content": "This is some information about my site" ,
-         "img_num": { "type": "random", "min": 1, "max": 50 }
-      }
-  },
-  {
-    "output_file": "home.html",
-    "replace": 
+        "output_file": "about.html",
+        "replace": 
+          {
+             "title": { "type": "string", "string": "My Site - About" },
+             "content": "This is some information about my site"
+          }
+      },
       {
-        "title": { "type": "string", "string": "My Site"  },
-        "content": { "type": "file", "file": "home_content.html" },
-        "img_num": { "type": "random", "min": 50, "max": 100 }
+        "output_file": "home.html",
+        "replace": 
+          {
+            "content": { "type": "file", "file": "home_content.html" }
+          }
       }
-  }
-]
+    ]
+}

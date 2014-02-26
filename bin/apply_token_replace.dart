@@ -15,46 +15,56 @@ const String RANDOM = 'random';
 const String MAX = 'max';
 const String MIN = 'min';
 
+void error(String msg) {
+  print(msg);
+  exit(1);
+}
+
 void main(List<String> args) {
   
-  if( args.isEmpty || args.length < 2 ) {
-    print('Usage: dart token_replace.dart input_file_with_tokens replace.json');
-    exit(1);
-  }
+  if( args.isEmpty || args.length < 2 ) error('Usage: dart token_replace.dart input_file_with_tokens replace.json');
   
   String inputFile = args[0];
   String jsonFile = args[1];
   
-  List json = JSON.decode(new File(jsonFile).readAsStringSync());
+  Map json = JSON.decode(new File(jsonFile).readAsStringSync());
 
-  if( json is! List ) {
-    print('$jsonFile: Expecting List at top level');
-    exit(1);
-  }
+  if( json is! Map ) error('$jsonFile: Expecting Map at top level');
   
-  json.forEach( (Map o) {
+  [REPLACE,OUTPUT].forEach((key){
+    if( !json.containsKey(key) ) error('$jsonFile: Expecting $key at top level');
+  });
+  
+  if( json[OUTPUT] is! List ) error('$jsonFile: Expecting List under $OUTPUT node');
+  
+  if( json[REPLACE] is! Map ) error('$jsonFile: Expecting Map under $REPLACE node');
+  
+  Map defaultReplace = json[REPLACE];
+  
+  json[OUTPUT].forEach( (Map o) {
     print('Running replacement for ${o[OUTPUT_FILE]} using template $inputFile');
     final Map replace = o[REPLACE];
-    new TokenReplace(new File(inputFile), new File(o[OUTPUT_FILE])).replaceAll((token) {
-      
+    String outputFile = o[OUTPUT_FILE];
+    new TokenReplace(new File(inputFile), new File(outputFile)).replaceAll((token) {
+      var replacement;
       if( !replace.containsKey(token) ) {
-        print('$inputFile: No replacement defined for "$token"');
-        exit(1);
+        if( !defaultReplace.containsKey(token)) error('$outputFile: No replacement defined for "$token"');
+        replacement = defaultReplace[token];
+      } else {
+        replacement = replace[token];
       }
-      if( replace[token] is Map ) {
-        switch( replace[token][TYPE] ) {
-          case STRING: return replace[token][STRING];
-          case FILE: return new File(replace[token][FILE]).readAsStringSync();
+      if( replacement is Map ) {
+        switch( replacement[TYPE] ) {
+          case STRING: return replacement[STRING];
+          case FILE: return new File(replacement[FILE]).readAsStringSync();
           case RANDOM: 
-            int max = replace[token][MAX];
-            int min = replace[token][MIN];
+            int max = replacement[MAX];
+            int min = replacement[MIN];
             return new Random().nextInt(max-min) + min;
-          default: 
-            print('$jsonFile: Unsupported replace type: ${replace[token][TYPE]}');
-            exit(1);
+          default:error('$jsonFile: Unsupported replace type: ${replacement[TYPE]}');
         }
       }
-      return replace[token];
+      return replacement;
     });
   });
 }

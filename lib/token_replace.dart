@@ -24,6 +24,8 @@ class TokenReplace {
     });
     //TODO: onDone call close file?
     //TODO: Return future so we can wait?
+    //TODO: support changing token pattern
+    //TODO: Streams not files?
       
   }
   
